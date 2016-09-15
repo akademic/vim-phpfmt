@@ -36,6 +36,9 @@ function! phpfmt#fmt#format() abort "{{{
     else
         let l:tmpname = tempname()
     endif
+    let l:tmpdir = fnamemodify(l:tmpname,':p:h')
+    let l:old_workdir = expand('%:p:h')
+    execute 'cd '. l:tmpdir
     call writefile(getline(1, '$'), l:tmpname)
 
     if g:phpfmt_experimental == 1
@@ -78,4 +81,5 @@ function! phpfmt#fmt#format() abort "{{{
         " Restore our cursor/windows positions.
         call winrestview(l:curw)
     endif
+    execute 'cd '.l:old_workdir
 endfunction "}}}
